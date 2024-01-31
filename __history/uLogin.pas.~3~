@@ -1,0 +1,79 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Data.DB,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons;
+
+type
+  TfLogin = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    LabelLogin: TLabel;
+    LabelTraço: TLabel;
+    LabelEmail: TLabel;
+    dbEmail: TDBEdit;
+    LabelSenha: TLabel;
+    dbSenha: TDBEdit;
+    btEntrar: TBitBtn;
+    Panel3: TPanel;
+    btSenha: TSpeedButton;
+    Label1: TLabel;
+    btCriarConta: TButton;
+    procedure btSenhaClick(Sender: TObject);
+    procedure btEntrarClick(Sender: TObject);
+    procedure btCriarContaClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fLogin: TfLogin;
+
+implementation
+
+{$R *.dfm}
+
+Uses uTabelas, uCadastro;
+
+procedure TfLogin.btCriarContaClick(Sender: TObject);
+begin
+  Application.CreateForm(TfCadastro, fCadastro);
+  fCadastro.showmodal;
+
+
+end;
+
+procedure TfLogin.btEntrarClick(Sender: TObject);
+begin
+  //Verificar login
+
+
+
+end;
+
+procedure TfLogin.btSenhaClick(Sender: TObject);
+begin
+  if dbSenha.PasswordChar = '*' then
+  begin
+    dbSenha.PasswordChar := #0
+  end
+  else
+  begin
+    dbSenha.PasswordChar := '*'
+  end;
+
+end;
+
+procedure TfLogin.FormActivate(Sender: TObject);
+begin
+  dbEmail.SetFocus;
+  dm.tbLogins.Open();
+end;
+
+end.

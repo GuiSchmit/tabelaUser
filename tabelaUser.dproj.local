@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/01/29 16:57:30.000.671,=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/01/29 16:57:42.000.211,=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/01/29 18:05:01.000.908,C:\Projeto\Tabela User\uLogin.pas=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/01/29 18:05:01.000.908,C:\Projeto\Tabela User\uLogin.dfm=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/01/29 18:05:12.000.293,C:\Projeto\Tabela User\uTabelas.dfm=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2024/01/29 18:05:12.000.293,C:\Projeto\Tabela User\uTabelas.pas=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/01/29 18:05:43.000.279,C:\Projeto\Tabela User\tabelaUser.dproj=C:\Users\Guilherme\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/01/29 19:09:51.000.985,=C:\Projeto\Tabela User\Unit1.pas</Transaction>
+    <Transaction>2024/01/29 19:18:27.000.568,C:\Projeto\Tabela User\uCadastro.dfm=C:\Projeto\Tabela User\Unit1.dfm</Transaction>
+    <Transaction>2024/01/29 19:18:27.000.568,C:\Projeto\Tabela User\uCadastro.pas=C:\Projeto\Tabela User\Unit1.pas</Transaction>
+    <Transaction>2024/01/30 10:07:21.000.693,=C:\Projeto\Tabela User\Unit1.pas</Transaction>
+    <Transaction>2024/01/30 10:39:50.000.173,=C:\Projeto\Tabela User\Unit2.pas</Transaction>
+    <Transaction>2024/01/30 10:58:16.000.245,C:\Projeto\Tabela User\uDadosPessoais.pas=C:\Projeto\Tabela User\Unit1.pas</Transaction>
+    <Transaction>2024/01/30 10:58:16.000.245,C:\Projeto\Tabela User\uDadosPessoais.dfm=C:\Projeto\Tabela User\Unit1.dfm</Transaction>
+    <Transaction>2024/01/30 10:58:25.000.351,C:\Projeto\Tabela User\uDados.pas=C:\Projeto\Tabela User\Unit2.pas</Transaction>
+    <Transaction>2024/01/30 10:58:25.000.351,C:\Projeto\Tabela User\uDados.dfm=C:\Projeto\Tabela User\Unit2.dfm</Transaction>
+    <Transaction>2024/01/30 11:14:53.000.015,C:\Projeto\Tabela User\uDados.pas=C:\Projeto\Tabela User\uDadosAdicionais.pas</Transaction>
+    <Transaction>2024/01/30 11:14:53.000.015,C:\Projeto\Tabela User\uDados.dfm=C:\Projeto\Tabela User\uDadosAdicionais.dfm</Transaction>
+    <Transaction>2024/01/30 19:03:05.000.228,=C:\Projeto\Tabela User\Unit1.pas</Transaction>
+    <Transaction>2024/01/30 19:13:53.000.137,C:\Projeto\Tabela User\Unit1.pas=C:\Projeto\Tabela User\uFuncoes.pas</Transaction>
+  </Transactions>
+</BorlandProject>

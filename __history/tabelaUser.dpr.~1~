@@ -1,0 +1,16 @@
+program tabelaUser;
+
+uses
+  Vcl.Forms,
+  uLogin in 'uLogin.pas' {fLogin},
+  uTabelas in 'uTabelas.pas' {DataModule2: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfLogin, fLogin);
+  Application.CreateForm(TDataModule2, DataModule2);
+  Application.Run;
+end.

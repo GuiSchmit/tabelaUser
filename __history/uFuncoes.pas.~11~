@@ -1,0 +1,206 @@
+unit uFuncoes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Mask, Vcl.DBCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
+  FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc, Xml.Win.msxmldom,
+  uCadastro, uTabelas, uDadosAdicionais;
+
+function ValidarEmail(email: string): Boolean;
+function ValidarSenha(senha, confirmaSenha: string): Boolean;
+function CadastrarUsuario(): Boolean;
+function CadastroValido(email, senha, confirmaSenha: string): Boolean;
+function CancelarTransaction(): Boolean;
+function viaCep(cep: string): Boolean;
+function LimpaEdits(form: TFOrm): Boolean;
+function EmailCadastrado(email: string): Boolean;
+procedure EsconderSenhaTDBEdit(edit: TDBEdit);
+procedure EsconderSenhaTEdit(edit: TEdit);
+
+var
+  xml: IXMLDocument;
+  url: String;
+  cep: String;
+  _erro: String;
+  _true: String;
+  rua: String;
+  bairro: String;
+  uf: String;
+  cidade: String;
+  i: integer;
+
+implementation
+
+function ValidarEmail(email: string): Boolean;
+begin
+  email := Trim(UpperCase(email));
+  if Pos('@', email) > 1 then begin
+    Delete(email, 1, pos('@', email));
+    Result := (Length(email) > 0) and (Pos('.', email) > 2) and (Pos(' ', email) = 0);
+  end else begin
+
+    Application.MessageBox('E-Mail inválido.','ERRO - AVISO DO SISTEMA!',
+      MB_ICONWARNING+MB_OK);
+    uCadastro.fCadastro.dbEmail.SetFocus;
+    Result := False;
+  end;
+end;
+
+function ValidarSenha(senha, confirmaSenha: string): Boolean;
+begin
+  if senha <> confirmaSenha then
+  begin
+    Application.MessageBox('Senhas não estão iguais.','ERRO - AVISO DO SISTEMA!',
+      MB_ICONWARNING+MB_OK);
+    uCadastro.fCadastro.dbConfirmaSenha.Clear;
+    uCadastro.fCadastro.dbConfirmaSenha.SetFocus;
+    Result := false;
+  end
+  else
+  begin
+    Result := true;
+  end;
+end;
+
+function CadastrarUsuario(): Boolean;
+begin
+   if dm.tbLogins.State in [dsinsert] then
+    begin
+      dm.tbLogins.Post;
+    end;
+    dm.fdTransaction.CommitRetaining;
+    dm.tbLogins.Close;
+    dm.tbLogins.Open();
+end;
+
+Function CadastroValido(email, senha, confirmaSenha: string): Boolean;
+begin
+  ShowMessage(email);
+  if EmailCadastrado(email) then
+  begin
+    uCadastro.fCadastro.dbEmail.SetFocus;
+    Result := false;
+  end
+  else
+  begin
+    if validarEmail(email) AND validarSenha(senha, confirmaSenha) then
+    begin
+      CadastrarUsuario();
+      Result := true;
+    end
+    else
+      Result := false;
+  end;
+
+end;
+
+function CancelarTransaction(): Boolean;
+begin
+  if dm.fdTransaction.Active then
+  begin
+    dm.fdTransaction.Rollback;
+    dm.tbLogins.Cancel;
+    dm.tbLogins.Close;
+    Result := true;
+  end;
+  Result := false;
+end;
+
+function viaCep(cep: string): Boolean;
+begin
+  if cep <> '' then
+  begin
+    _erro := 'erro';
+    _true := 'true';
+    cep := cep.Replace('.', '');
+    cep := cep.Replace('-', '');
+    if (Length(cep) > 8) then
+    begin
+      Application.MessageBox('CEP INVÁLIDO','ERRO - AVISO DO SISTEMA!',
+      MB_ICONWARNING+MB_OK);
+    end
+    else
+
+      xml := TXMLDocument.Create(nil);
+      url := 'https://viacep.com.br/ws/' + cep + '/xml/';
+      xml.FileName := url;
+      xml.Active := True;
+
+      if xml.DocumentElement.ChildValues[0] = _true then
+        Application.MessageBox('CEP INVÁLIDO','ERRO - AVISO DO SISTEMA!',
+        MB_ICONWARNING+MB_OK);
+
+        rua := xml.DocumentElement.ChildNodes['logradouro'].Text;
+        bairro := xml.DocumentElement.ChildNodes['bairro'].Text;
+        cidade := xml.DocumentElement.ChildNodes['localidade'].Text;
+        uf := xml.DocumentElement.ChildNodes['uf'].Text;
+
+        uDadosAdicionais.fDadosAdicionais.dbRua.Text := rua;
+        uDadosAdicionais.fDadosAdicionais.dbBairro.Text := bairro;
+        uDadosAdicionais.fDadosAdicionais.dbEstado.Text := uf;
+        uDadosAdicionais.fDadosAdicionais.dbCidade.Text := cidade;
+
+        xml := nil;
+
+    end;
+end;
+
+function LimpaEdits(form: TFOrm): Boolean;
+begin
+  for i := 0 to form.ComponentCount-1 do
+    begin
+    if form.Components[i] is TDBEdit then
+      (form.Components[i] as TDBEdit).Clear;
+    end;
+end;
+
+function EmailCadastrado(email: string): Boolean;
+begin
+  if dm.tbLogins.Locate('email', email, []) = true then
+  begin
+
+    Application.MessageBox('EXISTE','ERRO - AVISO DO SISTEMA!',
+      MB_ICONWARNING+MB_OK);
+    Result := true;
+  end
+  else
+  begin
+    Application.MessageBox('NAO EXISTE','ERRO - AVISO DO SISTEMA!',
+      MB_ICONWARNING+MB_OK);
+    Result := false;
+  end;
+end;
+
+procedure EsconderSenhaTDBEdit(edit: TDBEdit);
+begin
+  if edit.PasswordChar = '*' then
+  begin
+    edit.PasswordChar := #0
+  end
+  else
+  begin
+    edit.PasswordChar := '*'
+  end;
+end;
+
+procedure EsconderSenhaTEdit(edit: TEdit);
+begin
+  if edit.PasswordChar = '*' then
+  begin
+    edit.PasswordChar := #0
+  end
+  else
+  begin
+    edit.PasswordChar := '*'
+  end;
+end;
+
+
+end.
